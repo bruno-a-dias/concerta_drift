@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Circularidade — concerta_drift</title>
+<meta name="description" content="Meça o erro de circularidade dos analógicos girando-os pela borda do portão.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Teste de circularidade</h2>
+    <div id="bar"></div>
+    <p class="note">Gire cada analógico lentamente pela borda, empurrando-o até o limite, por voltas completas. O teste registra o raio máximo alcançado em cada um dos 36 setores de 10° e compara com um círculo perfeito.</p>
+    <div class="row">
+      <button class="act primary" id="toggle">Iniciar</button>
+      <button class="act" id="reset">Limpar</button>
+      <span class="note" id="msg">Pronto. O teste para sozinho após 20 s.</span>
+    </div>
+    <div class="progress"><i id="prog"></i></div>
+  </section>
+
+  <section class="card">
+    <h2>Esquerdo</h2>
+    <div class="sticks"><canvas id="cL" width="260" height="260"></canvas></div>
+    <table class="t" style="margin-top:10px"><tbody id="rL"></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>Direito</h2>
+    <div class="sticks"><canvas id="cR" width="260" height="260"></canvas></div>
+    <table class="t" style="margin-top:10px"><tbody id="rR"></tbody></table>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Como interpretar</h2>
+    <ul>
+      <li><b>Cobertura</b>: quantos dos 36 setores foram alcançados. Abaixo de 90% o resultado não é confiável.</li>
+      <li><b>Erro RMS</b>: variação típica do raio de borda em relação à média, em %. Quanto menor, mais redondo.</li>
+      <li><b>Desvio máximo</b>: o pior setor em relação ao raio médio.</li>
+      <li>A linha laranja liga o raio máximo de cada setor; o círculo cinza é o limite 1.0. Controles com portão octogonal ou quadrado podem mostrar cantos (raio acima de 1.0 nas diagonais) — isso é característica do projeto do analógico, não necessariamente defeito.</li>
+    </ul>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/circularity.js"></script>
+</body>
+</html>

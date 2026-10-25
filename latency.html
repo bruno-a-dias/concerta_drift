@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Reação — concerta_drift</title>
+<meta name="description" content="Teste de tempo de reação com o controle, para comparar conexões (cabo, Bluetooth, 2.4G) com a mesma pessoa e o mesmo equipamento.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Teste de reação</h2>
+    <div id="bar"></div>
+    <p class="note">A tela fica vermelha e, após um tempo aleatório, vira verde. Aperte qualquer botão assim que ela mudar. São 10 rodadas. O resultado inclui o seu tempo de reação e a latência da tela, então só serve para <b>comparar conexões</b> usando a mesma pessoa, a mesma tela e o mesmo computador; diferenças de poucos milissegundos ficam escondidas pela variação humana.</p>
+    <div class="row">
+      <label class="note">Conexão em teste
+        <select id="conn"><option>Cabo USB</option><option>Bluetooth</option><option>Adaptador 2.4G</option><option>Outro</option></select>
+      </label>
+      <button class="act primary" id="start">Iniciar</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="box" id="box">Clique em Iniciar</div>
+  </section>
+
+  <section class="card">
+    <h2>Resultados</h2>
+    <div id="res" class="note">Nenhuma rodada ainda.</div>
+    <h3>Sessões salvas neste navegador</h3>
+    <table class="t"><thead><tr><th>Conexão</th><th>Sessões</th><th>Média das médias</th><th>Melhor</th></tr></thead><tbody id="hist"></tbody></table>
+    <div class="row"><button class="act" id="clear">Apagar histórico</button></div>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/latency.js"></script>
+</body>
+</html>

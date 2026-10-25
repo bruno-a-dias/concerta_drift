@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Drift do Analógico — concerta_drift</title>
+<meta name="description" content="Meça o drift dos analógicos do seu controle: offset de repouso, ruído, zona morta sugerida e diagnóstico.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Medição de repouso</h2>
+    <div id="bar"></div>
+    <p class="note">Drift é quando o analógico informa movimento mesmo sem ninguém tocar nele. Solte o controle (ou apoie-o sobre uma superfície) e inicie a medição: o teste coleta as posições durante alguns segundos e calcula o offset, o ruído e uma zona morta sugerida.</p>
+    <div class="row">
+      <label class="note">Duração
+        <select id="dur"><option value="3">3 s</option><option value="5" selected>5 s</option><option value="10">10 s</option><option value="15">15 s</option></select>
+      </label>
+      <label class="note">Ampliação do gráfico
+        <select id="zoom"><option value="0.1">±0.10</option><option value="0.25" selected>±0.25</option><option value="0.5">±0.50</option><option value="1">±1.00</option></select>
+      </label>
+      <button class="act primary" id="start">Iniciar medição</button>
+    </div>
+    <div class="progress"><i id="prog"></i></div>
+    <p class="note" id="msg" style="margin-bottom:0">Pronto para medir.</p>
+  </section>
+
+  <section class="card">
+    <h2>Posição dos analógicos</h2>
+    <div class="sticks">
+      <div class="stick"><canvas id="cL" width="220" height="220"></canvas><div>Esquerdo <span id="tL">+0.000, +0.000</span></div></div>
+      <div class="stick"><canvas id="cR" width="220" height="220"></canvas><div>Direito <span id="tR">+0.000, +0.000</span></div></div>
+    </div>
+    <div class="field">
+      <label>Zona morta de referência (círculo tracejado): <span id="dzv">0.10</span></label>
+      <input type="range" id="dz" min="0" max="0.3" step="0.01" value="0.10">
+    </div>
+  </section>
+
+  <section class="card" id="res" hidden>
+    <h2>Resultado</h2>
+    <table class="t">
+      <thead><tr><th>Métrica</th><th>Esquerdo</th><th>Direito</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <p class="note" id="legend"></p>
+    <div class="row"><button class="act" id="copy">Copiar resultado</button></div>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Como interpretar</h2>
+    <ul>
+      <li><b>Offset</b>: distância média do ponto de repouso até o centro exato (0, 0). Um offset pequeno e estável não é problema.</li>
+      <li><b>Desvio padrão</b>: ruído do sensor. Valores altos indicam leitura instável (poeira, desgaste do potenciômetro).</li>
+      <li><b>Magnitude P99</b>: em 99% das amostras o ponto ficou dentro desse raio. É a base da zona morta sugerida.</li>
+      <li><b>Zona morta</b>: raio central em que o jogo ignora o movimento. Aumente-a nos jogos até o drift sumir; se precisar de valores muito altos, o analógico está desgastado.</li>
+    </ul>
+    <p class="note">Classificação usada: menos de 0.03 sem drift relevante · até 0.08 leve · até 0.15 moderado · acima disso severo (valores de referência deste projeto, não um padrão da indústria).</p>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/drift.js"></script>
+</body>
+</html>

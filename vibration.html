@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Vibração — concerta_drift</title>
+<meta name="description" content="Teste os motores de vibração esquerdo e direito do controle, com intensidade e duração ajustáveis.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Vibração</h2>
+    <div id="bar"></div>
+    <p class="note" id="support">Verificando suporte…</p>
+  </section>
+
+  <section class="card">
+    <h2>Controle manual</h2>
+    <div class="field"><label>Motor pesado (esquerdo): <b id="vs">1.00</b></label><input type="range" id="strong" min="0" max="1" step="0.05" value="1"></div>
+    <div class="field"><label>Motor leve (direito): <b id="vw">1.00</b></label><input type="range" id="weak" min="0" max="1" step="0.05" value="1"></div>
+    <div class="field"><label>Duração: <b id="vd">800</b> ms</label><input type="range" id="dur" min="100" max="5000" step="100" value="800"></div>
+    <div class="row">
+      <button class="act primary" id="play">Testar</button>
+      <button class="act" id="stop">Parar</button>
+    </div>
+    <p class="note" id="msg" style="margin-bottom:0"></p>
+  </section>
+
+  <section class="card">
+    <h2>Padrões prontos</h2>
+    <div class="row">
+      <button class="act" data-p="heavy">Pesado</button>
+      <button class="act" data-p="light">Leve</button>
+      <button class="act" data-p="burst">Rajada</button>
+      <button class="act" data-p="pulse">Pulso</button>
+      <button class="act" data-p="wave">Onda</button>
+      <button class="act" data-p="beat">Batimento</button>
+      <button class="act" data-p="alt">Alternado</button>
+    </div>
+    <p class="note">Em controles de dois motores, o motor "pesado" costuma ficar no lado esquerdo (vibração grave) e o "leve" no direito (vibração aguda).</p>
+    <h3>Vibração dos gatilhos (experimental)</h3>
+    <div class="field"><label>Gatilho esquerdo: <b id="vl">0.80</b></label><input type="range" id="tl" min="0" max="1" step="0.05" value="0.8"></div>
+    <div class="field"><label>Gatilho direito: <b id="vr">0.80</b></label><input type="range" id="tr" min="0" max="1" step="0.05" value="0.8"></div>
+    <div class="row"><button class="act" id="trig">Testar gatilhos</button></div>
+    <p class="note" id="tmsg" style="margin-bottom:0">Só funciona em controles e navegadores que suportem motores nos gatilhos.</p>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Se não vibrar</h2>
+    <ul>
+      <li>Use Chrome ou Edge e prefira conexão por cabo USB; no Windows, a vibração via Bluetooth costuma ser instável em alguns controles.</li>
+      <li>Feche jogos e apps (Steam, emuladores) que estejam usando o controle ao mesmo tempo.</li>
+      <li>Pressione um botão antes de testar, para o navegador liberar o controle.</li>
+      <li>Os gatilhos adaptativos do DualSense (resistência variável) não são controláveis pela API padrão.</li>
+    </ul>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/vibration.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Mapeamento — concerta_drift</title>
+<meta name="description" content="Descubra qual índice de botão ou eixo o navegador atribui a cada controle físico e compare com o mapeamento padrão.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Detecção ao vivo</h2>
+    <div id="bar"></div>
+    <div id="info" class="note" style="margin-bottom:10px">Nenhum controle detectado.</div>
+    <div class="big" id="last">—</div>
+    <div class="note">Último botão pressionado</div>
+    <p class="note" id="down" style="margin-top:12px"></p>
+  </section>
+
+  <section class="card">
+    <h2>Mapeamento guiado</h2>
+    <p class="note">O teste pede cada botão e cada eixo, um por vez, e registra o índice informado pelo navegador. Comparamos com o mapeamento "standard" da especificação Gamepad.</p>
+    <div class="big" id="prompt" style="font-size:1.2rem">Pronto para começar.</div>
+    <div class="progress" style="margin:8px 0"><i id="prog"></i></div>
+    <p class="note" id="hint"></p>
+    <div class="row">
+      <button class="act primary" id="start">Iniciar</button>
+      <button class="act" id="skip" disabled>Pular</button>
+      <button class="act" id="cancel" disabled>Cancelar</button>
+    </div>
+  </section>
+
+  <section class="card wide" id="out" hidden>
+    <h2>Resultado</h2>
+    <div style="overflow:auto">
+      <table class="t">
+        <thead><tr><th>Função</th><th>Detectado</th><th>Padrão</th><th>Status</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="row">
+      <button class="act" id="copy">Copiar JSON</button>
+      <button class="act" id="dl">Baixar JSON</button>
+    </div>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/mapping.js"></script>
+</body>
+</html>

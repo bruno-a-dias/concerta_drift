@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calibração por Software — concerta_drift</title>
+<meta name="description" content="Calibração guiada por software dos analógicos: centro, alcance e zona morta, com exportação em JSON.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Calibração guiada</h2>
+    <div id="bar"></div>
+    <p class="note">O navegador não consegue gravar calibração dentro do controle. Esta página mede o centro real e o alcance de cada eixo e gera valores (centro, mínimo, máximo e zona morta) que você pode usar no seu próprio código ou como referência em jogos e no Steam Input. Veja a aba <a href="guides.html">Guias</a> para calibrar o controle pelo sistema.</p>
+    <ol class="note" style="margin:8px 0 12px;padding-left:20px">
+      <li><b>Centro</b> (2,5 s): solte os analógicos.</li>
+      <li><b>Alcance</b> (8 s): gire os dois analógicos lentamente pelas bordas, dando várias voltas completas.</li>
+    </ol>
+    <div class="row"><button class="act primary" id="start">Iniciar calibração</button></div>
+    <div class="progress"><i id="prog"></i></div>
+    <p class="note" id="msg" style="margin-bottom:0">Pronto para calibrar.</p>
+  </section>
+
+  <section class="card">
+    <h2>Eixos (ao vivo)</h2>
+    <table class="t"><thead><tr><th>Eixo</th><th>Atual</th><th>Mín.</th><th>Máx.</th></tr></thead><tbody id="live"></tbody></table>
+  </section>
+
+  <section class="card" id="prevCard" hidden>
+    <h2>Pré-visualização</h2>
+    <div class="row"><label class="note">Analógico <select id="which"><option value="l">Esquerdo</option><option value="r">Direito</option></select></label></div>
+    <div class="sticks">
+      <div class="stick"><canvas id="cRaw" width="180" height="180"></canvas><div>Bruto</div></div>
+      <div class="stick"><canvas id="cCal" width="180" height="180"></canvas><div>Calibrado</div></div>
+    </div>
+  </section>
+
+  <section class="card wide" id="out" hidden>
+    <h2>Resultado</h2>
+    <div id="warns" class="note warn"></div>
+    <pre class="code" id="json"></pre>
+    <div class="row">
+      <button class="act" id="copyJson">Copiar JSON</button>
+      <button class="act" id="dlJson">Baixar JSON</button>
+      <button class="act" id="saveLocal">Salvar neste navegador</button>
+      <button class="act" id="loadLocal">Carregar salvo</button>
+    </div>
+    <h3>Como aplicar no seu código</h3>
+    <pre class="code" id="snippet"></pre>
+    <div class="row"><button class="act" id="copySnippet">Copiar código</button></div>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/calibration.js"></script>
+</body>
+</html>

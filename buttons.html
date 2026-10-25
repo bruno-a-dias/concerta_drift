@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Botões — concerta_drift</title>
+<meta name="description" content="Conte acionamentos, meça o tempo de pressão e detecte cliques duplos falsos (chattering) nos botões do controle.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Teste de botões</h2>
+    <div id="bar"></div>
+    <p class="note">Aperte cada botão algumas vezes. A tabela conta os acionamentos, mostra o tempo de pressão e sinaliza <b>cliques duplos falsos</b>: um botão que registra duas pressões com menos de 35 ms entre a soltura e a próxima pressão, algo que dedos humanos não conseguem fazer, é sinal de contato com defeito (chattering).</p>
+    <div class="row"><button class="act" id="reset">Zerar contadores</button></div>
+    <div style="overflow:auto">
+      <table class="t">
+        <thead><tr><th>Botão</th><th>Estado</th><th>Acionamentos</th><th>Último (ms)</th><th>Mais curto (ms)</th><th>Cliques duplos falsos</th></tr></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/buttons.js"></script>
+</body>
+</html>

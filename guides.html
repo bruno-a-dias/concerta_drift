@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guias por Controle — concerta_drift</title>
+<meta name="description" content="Guias para Xbox, PlayStation, Switch e controles genéricos: conexão, calibração, drift, manutenção, glossário e perguntas frequentes.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+</header>
+
+<main>
+  <section class="card wide prose">
+    <h2>Como testar o seu controle</h2>
+    <ol>
+      <li>Conecte o controle por cabo USB ou Bluetooth. Chrome e Edge têm a melhor compatibilidade com a Gamepad API.</li>
+      <li>Abra o <a href="index.html">Início</a> e pressione qualquer botão: por segurança, o navegador só libera o controle depois de uma interação.</li>
+      <li>Use as demais abas conforme o que quer verificar: <a href="drift.html">Drift</a>, <a href="calibration.html">Calibração</a>, <a href="circularity.html">Circularidade</a>, <a href="polling.html">Polling</a>, <a href="vibration.html">Vibração</a>, <a href="buttons.html">Botões</a>, <a href="mapping.html">Mapeamento</a> e <a href="latency.html">Reação</a>.</li>
+    </ol>
+    <p class="note">Os nomes de menus e opções citados abaixo podem variar conforme a versão do sistema, do app ou do firmware.</p>
+  </section>
+
+  <section class="card prose">
+    <h2>Xbox (360, One, Series)</h2>
+    <ul>
+      <li>Reconhecido como controle de mapeamento padrão na maioria dos navegadores; botões A/B/X/Y nos índices 0–3.</li>
+      <li>No Windows, a vibração por Bluetooth pode falhar em alguns drivers; teste com cabo USB ou adaptador sem fio dedicado.</li>
+      <li>Mantenha o firmware atualizado pelo app Xbox Accessories (Windows e Xbox).</li>
+      <li>Para ajustar a zona morta, use as configurações do jogo ou o Steam Input.</li>
+    </ul>
+  </section>
+
+  <section class="card prose">
+    <h2>PlayStation (DualShock 4, DualSense)</h2>
+    <ul>
+      <li>Aparece com mapeamento padrão em navegadores baseados em Chromium; os rótulos ✕ ○ □ △ correspondem aos índices 0–3 (selecione "PlayStation" nos rótulos).</li>
+      <li>Os gatilhos adaptativos e a vibração háptica avançada do DualSense não são controláveis pela Gamepad API padrão; só dá para ler o curso do gatilho (0 a 1).</li>
+      <li>Se o controle travar ou não parear, os dois modelos têm um pequeno orifício de reset na parte traseira, perto do botão L2; pressione com um clipe e pareie novamente.</li>
+    </ul>
+  </section>
+
+  <section class="card prose">
+    <h2>Nintendo (Switch Pro, Joy-Con)</h2>
+    <ul>
+      <li>O Pro Controller costuma ser reconhecido normalmente; os Joy-Con podem aparecer separados ou com mapeamento fora do padrão, dependendo do sistema e do navegador. Use o <a href="mapping.html">Mapeamento</a> para descobrir os índices reais.</li>
+      <li>No layout Nintendo, o botão inferior (índice 0) é o <b>B</b>, e não o A.</li>
+      <li>No próprio Switch há a opção de calibrar os analógicos nas configurações de controles e sensores.</li>
+    </ul>
+  </section>
+
+  <section class="card prose">
+    <h2>Genéricos e controles de PC</h2>
+    <ul>
+      <li>Muitos aparecem com mapeamento "não padrão": os índices dos botões e eixos podem ser diferentes. Rode o <a href="mapping.html">Mapeamento guiado</a> e guarde o JSON.</li>
+      <li>Alguns modos (X-input / D-input / Switch) alteram como o controle se apresenta; troque de modo se algo parecer errado.</li>
+      <li>No Windows, controles reconhecidos como DirectInput podem ser calibrados em "Configurar controladores de jogo USB" (execute <code>joy.cpl</code>).</li>
+    </ul>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Calibração e drift: o que dá para fazer</h2>
+    <ul>
+      <li><b>Meça primeiro</b> na aba <a href="drift.html">Drift</a>. Se o resultado for leve, uma zona morta maior no jogo costuma bastar.</li>
+      <li><b>Software</b>: Steam Input permite ajustar zona morta e curva por jogo; a aba <a href="calibration.html">Calibração</a> gera valores de centro, alcance e zona morta que você pode reutilizar.</li>
+      <li><b>Limpeza</b>: com o controle desligado, ar comprimido ao redor da base do analógico e limpa-contatos eletrônico ajudam quando o drift vem de sujeira. Siga as instruções do fabricante e prefira não abrir o controle se ele estiver na garantia.</li>
+      <li><b>Hardware</b>: drift severo e persistente costuma indicar desgaste do potenciômetro; a troca do módulo (inclusive por módulos de efeito Hall) resolve, ou use a garantia.</li>
+    </ul>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Glossário</h2>
+    <details open><summary>Drift do analógico</summary><p>O analógico informa movimento mesmo estando em repouso, geralmente por desgaste ou sujeira.</p></details>
+    <details><summary>Zona morta</summary><p>Região central em que o movimento é ignorado. Mascara drift leve, mas reduz a precisão de movimentos pequenos.</p></details>
+    <details><summary>Taxa de polling</summary><p>Quantas vezes por segundo o controle envia seu estado. Quanto maior, menor o atraso de entrada.</p></details>
+    <details><summary>Circularidade</summary><p>Quão próximo de um círculo perfeito é o alcance do analógico ao girá-lo pela borda.</p></details>
+    <details><summary>Efeito Hall</summary><p>Tecnologia de analógico com sensores magnéticos, sem contato físico no sensor, o que reduz o desgaste que causa drift.</p></details>
+    <details><summary>Chattering</summary><p>Um botão registra várias pressões por um único toque, por contato com defeito. Veja a aba <a href="buttons.html">Botões</a>.</p></details>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Perguntas frequentes</h2>
+    <details><summary>Por que meu controle não é detectado?</summary><p>O navegador só libera o controle depois que você pressiona um botão na página. Pressione qualquer botão; se continuar sem aparecer, reconecte o controle, feche apps que o estejam usando e tente outro navegador baseado em Chromium.</p></details>
+    <details><summary>Por que a vibração não funciona?</summary><p>Use Chrome ou Edge e, de preferência, cabo USB. Alguns controles e drivers não expõem vibração ao navegador.</p></details>
+    <details><summary>Posso salvar a calibração dentro do controle?</summary><p>Não pelo navegador. A calibração gerada aqui é por software: você usa os valores no seu código ou em ferramentas como o Steam Input.</p></details>
+    <details><summary>Meus dados são enviados para algum servidor?</summary><p>Não. Toda a leitura e o cálculo acontecem no seu navegador. Apenas o histórico do teste de reação e as calibrações que você salvar ficam no armazenamento local do seu navegador.</p></details>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Cuidados com o controle</h2>
+    <ul>
+      <li>Guarde em uma bolsa ou estojo: poeira na base do analógico é causa comum de drift.</li>
+      <li>Evite deixar o controle sem fio carregando por muitas horas com frequência.</li>
+      <li>Prefira carregar pelo cabo do controle em portas USB comuns, em vez de carregadores rápidos de celular.</li>
+      <li>Mantenha o firmware atualizado, pois atualizações podem melhorar conexão e calibração.</li>
+    </ul>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+</body>
+</html>

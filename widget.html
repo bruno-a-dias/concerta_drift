@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget de Controle — concerta_drift</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  body{padding:12px}
+  .w{max-width:560px;margin:0 auto}
+  .w .sticks{margin:10px 0}
+  .w .btns{grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px}
+</style>
+</head>
+<body>
+<div class="w">
+  <div class="status" id="status">Pressione um botão do controle</div>
+  <div class="sticks">
+    <div class="stick"><canvas id="cL" width="150" height="150"></canvas></div>
+    <div class="stick"><canvas id="cR" width="150" height="150"></canvas></div>
+  </div>
+  <div class="btns" id="btns"></div>
+</div>
+<script src="assets/common.js"></script>
+<script src="assets/widget.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teste de Taxa de Polling — concerta_drift</title>
+<meta name="description" content="Estime a taxa de polling do controle (Hz), o intervalo entre relatórios e o jitter.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+  <span id="status" class="status">Pressione um botão do controle</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Taxa de polling</h2>
+    <div id="bar"></div>
+    <p class="note">Mova um analógico em círculos, sem parar, durante o teste (o controle só envia relatórios novos quando algo muda). Mantenha esta aba visível e em primeiro plano. Compare conexões (cabo, Bluetooth, adaptador 2.4G) sempre no mesmo computador e navegador.</p>
+    <div class="row">
+      <button class="act primary" id="toggle">Pausar</button>
+      <button class="act" id="reset">Reiniciar</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Agora</h2>
+    <div class="big" id="hz">— Hz</div>
+    <div class="note" id="hint">Aguardando movimento…</div>
+    <table class="t" style="margin-top:12px"><tbody id="stats"></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>Hz nos últimos 30 s</h2>
+    <canvas id="chart" class="sq" width="520" height="220"></canvas>
+  </section>
+
+  <section class="card wide">
+    <h2>Distribuição dos intervalos (ms)</h2>
+    <canvas id="hist" class="sq" width="1000" height="200"></canvas>
+    <p class="note">Um pico estreito indica envio regular; barras espalhadas indicam jitter (interferência, Bluetooth congestionado ou economia de energia).</p>
+  </section>
+
+  <section class="card wide prose">
+    <h2>Limites desta medição</h2>
+    <ul>
+      <li>O navegador lê o estado do controle por amostragem e pode limitar a frequência que enxerga; por isso o valor mostrado serve melhor como <b>comparação relativa</b> entre conexões do que como número absoluto do hardware.</li>
+      <li>Em geral, conexões Bluetooth ficam em taxas mais baixas que as com fio, mas os valores variam muito por modelo, sistema e driver.</li>
+      <li>Em navegadores que não informam o carimbo de tempo do controle, a página compara o estado a cada amostra (medição aproximada).</li>
+    </ul>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/polling.js"></script>
+</body>
+</html>

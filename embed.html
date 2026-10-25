@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widget Incorporável — concerta_drift</title>
+<meta name="description" content="Incorpore o visualizador de controle em outro site com um iframe.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>🎮 concerta_drift</h1>
+  <nav id="nav"></nav>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Configurar</h2>
+    <div class="field"><label>Tema</label>
+      <select id="theme"><option value="dark">Escuro</option><option value="light">Claro</option></select></div>
+    <div class="field"><label>Rótulos dos botões</label>
+      <select id="layout"><option value="xbox">Xbox</option><option value="ps">PlayStation</option><option value="switch">Nintendo</option></select></div>
+    <div class="field"><label>Controle</label>
+      <select id="pad"><option value="0">P1</option><option value="1">P2</option><option value="2">P3</option><option value="3">P4</option></select></div>
+    <h3>Código para incorporar</h3>
+    <pre class="code" id="code"></pre>
+    <div class="row"><button class="act" id="copy">Copiar código</button></div>
+    <p class="note">O endereço do iframe usa o local onde esta página está publicada. Se você hospedar o widget em outro domínio, troque o <code>src</code>.</p>
+  </section>
+
+  <section class="card">
+    <h2>Pré-visualização</h2>
+    <iframe class="prev" id="prev" title="Widget de controle" allow="gamepad"></iframe>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no navegador de quem usa o widget.</footer>
+
+<script src="assets/common.js"></script>
+<script src="assets/embed.js"></script>
+</body>
+</html>
