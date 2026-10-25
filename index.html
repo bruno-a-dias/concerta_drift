@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testador de Controle Online</title>
+<meta name="description" content="Teste botões, analógicos, gatilhos, vibração e taxa de polling do seu controle direto no navegador, usando a Gamepad API.">
+<style>
+  :root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#8b93a5;--acc:#4ade80;--warn:#f59e0b;--bad:#ef4444}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt)}
+  header{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  header h1{font-size:1.1rem;margin:0}
+  main{max-width:1100px;margin:0 auto;padding:20px;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card h2{font-size:.95rem;margin:0 0 12px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+  .wide{grid-column:1/-1}
+  #status{font-size:.9rem;color:var(--mut)}
+  #status.on{color:var(--acc)}
+  .slots{display:flex;gap:6px;margin-bottom:12px}
+  .slot{padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:none;color:var(--mut);cursor:pointer}
+  .slot.active{border-color:var(--acc);color:var(--acc)}
+  .slot.has{color:var(--txt)}
+  .btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+  .btn{border:1px solid var(--line);border-radius:8px;padding:8px 4px;text-align:center;font-size:.75rem;color:var(--mut);transition:background .05s}
+  .btn.on{background:var(--acc);color:#000;border-color:var(--acc);font-weight:600}
+  .btn small{display:block;font-size:.65rem;opacity:.8}
+  .sticks{display:flex;gap:20px;flex-wrap:wrap;justify-content:center}
+  .stick{text-align:center;font-size:.8rem;color:var(--mut)}
+  canvas{background:#0b0d11;border:1px solid var(--line);border-radius:50%}
+  .trig{margin-bottom:12px;font-size:.85rem}
+  .bar{height:14px;background:#0b0d11;border:1px solid var(--line);border-radius:7px;overflow:hidden;margin-top:4px}
+  .bar>i{display:block;height:100%;width:0;background:var(--acc)}
+  .raw{display:grid;grid-template-columns:1fr 1fr;gap:12px;font-family:ui-monospace,Menlo,monospace;font-size:.8rem}
+  .raw div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:2px 0}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  button.act{background:var(--line);color:var(--txt);border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+  button.act:hover{background:#3a4150}
+  label{font-size:.85rem;color:var(--mut)}
+  .big{font-size:2rem;font-weight:700}
+  .good{color:var(--acc)}.warn{color:var(--warn)}.bad{color:var(--bad)}
+  footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎮 Testador de Controle</h1>
+  <span id="status">Conecte o controle e pressione qualquer botão</span>
+</header>
+
+<main>
+  <section class="card wide">
+    <h2>Controle</h2>
+    <div class="slots" id="slots"></div>
+    <div id="info" style="color:var(--mut);font-size:.85rem;margin-bottom:12px">Nenhum controle detectado.</div>
+    <div class="btns" id="btns"></div>
+  </section>
+
+  <section class="card">
+    <h2>Analógicos</h2>
+    <div class="sticks">
+      <div class="stick"><canvas id="cL" width="180" height="180"></canvas><div>Esquerdo <span id="tL">+0.00, +0.00</span></div><div id="eL"></div></div>
+      <div class="stick"><canvas id="cR" width="180" height="180"></canvas><div>Direito <span id="tR">+0.00, +0.00</span></div><div id="eR"></div></div>
+    </div>
+    <div style="margin-top:12px">
+      <label>Zona morta: <span id="dzv">0.10</span>
+        <input type="range" id="dz" min="0" max="0.5" step="0.01" value="0.10" style="width:100%">
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Gatilhos</h2>
+    <div class="trig">LT / L2 <b id="vLT">0.00</b><div class="bar"><i id="bLT"></i></div></div>
+    <div class="trig">RT / R2 <b id="vRT">0.00</b><div class="bar"><i id="bRT"></i></div></div>
+    <h2 style="margin-top:20px">Dados brutos</h2>
+    <div class="raw"><div id="axes"></div><div id="rbtns"></div></div>
+  </section>
+
+  <section class="card">
+    <h2>Vibração</h2>
+    <div class="row">
+      <button class="act" data-v="heavy">Pesado</button>
+      <button class="act" data-v="light">Leve</button>
+      <button class="act" data-v="burst">Rajada</button>
+      <button class="act" data-v="pulse">Pulso</button>
+    </div>
+    <div id="vibnote" style="color:var(--mut);font-size:.8rem">Requer Chrome/Edge e conexão com fio (USB) para melhor resultado.</div>
+  </section>
+
+  <section class="card">
+    <h2>Taxa de polling</h2>
+    <div class="big" id="hz">— Hz</div>
+    <div style="color:var(--mut);font-size:.8rem">Estimativa de quantas vezes por segundo o estado do controle muda. Mexa o analógico continuamente durante o teste.</div>
+    <div class="row" style="margin-top:10px"><button class="act" id="hzReset">Reiniciar</button></div>
+  </section>
+</main>
+<footer>Todo o processamento acontece localmente no seu navegador. Baseado na Gamepad API padrão.</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const NAMES = ['A','B','X','Y','LB','RB','LT','RT','Select','Start','L3','R3','↑','↓','←','→','Home','Extra'];
+  let active = 0, deadzone = 0.10;
+
+  // botões
+  const btnsEl = $('btns');
+  NAMES.forEach((n,i)=>{ const d=document.createElement('div'); d.className='btn'; d.id='b'+i; d.innerHTML=n+'<small>'+i+'</small>'; btnsEl.appendChild(d); });
+
+  $('dz').addEventListener('input', e => { deadzone=+e.target.value; $('dzv').textContent=deadzone.toFixed(2); });
+
+  const getPads = () => Array.from(navigator.getGamepads ? navigator.getGamepads() : []);
+  const fmt = v => (v>=0?'+':'')+v.toFixed(2);
+
+  function drawStick(canvas, x, y){
+    const c=canvas.getContext('2d'), w=canvas.width, r=w/2-6, cx=w/2;
+    c.clearRect(0,0,w,w);
+    c.strokeStyle='#2a2f3a'; c.lineWidth=1;
+    c.beginPath(); c.arc(cx,cx,r,0,7); c.stroke();
+    c.beginPath(); c.moveTo(cx,6); c.lineTo(cx,w-6); c.moveTo(6,cx); c.lineTo(w-6,cx); c.stroke();
+    c.strokeStyle='#f59e0b55'; c.beginPath(); c.arc(cx,cx,r*deadzone,0,7); c.stroke();
+    const mag=Math.hypot(x,y);
+    c.fillStyle = mag<deadzone ? '#8b93a5' : '#4ade80';
+    c.beginPath(); c.arc(cx+x*r, cx+y*r, 7, 0, 7); c.fill();
+  }
+
+  function stickInfo(x,y,el){
+    const m=Math.hypot(x,y);
+    if(m<0.02){ el.innerHTML='<span class="good">Centrado</span>'; }
+    else if(m<deadzone){ el.innerHTML='<span class="warn">Drift: '+m.toFixed(3)+' (dentro da zona morta)</span>'; }
+    else { el.innerHTML='Magnitude '+m.toFixed(3)+(m>1.02?' <span class="warn">(circularidade &gt;1)</span>':''); }
+  }
+
+  // polling
+  let lastTs=0, changes=[];
+  $('hzReset').onclick = () => { changes=[]; $('hz').textContent='— Hz'; };
+  function trackPolling(pad){
+    if(pad.timestamp!==lastTs){
+      const now=performance.now(); changes.push(now); lastTs=pad.timestamp;
+      while(changes.length && now-changes[0]>1000) changes.shift();
+      if(changes.length>5) $('hz').textContent=changes.length+' Hz';
+    }
+  }
+
+  function renderSlots(pads){
+    const el=$('slots'); el.innerHTML='';
+    for(let i=0;i<4;i++){
+      const b=document.createElement('button');
+      b.className='slot'+(pads[i]?' has':'')+(i===active?' active':'');
+      b.textContent='P'+(i+1);
+      b.onclick=()=>{active=i;};
+      el.appendChild(b);
+    }
+  }
+
+  let lastSig='';
+  function loop(){
+    const pads=getPads();
+    const sig=pads.map(p=>p?p.index:'-').join(',')+active;
+    if(sig!==lastSig){ renderSlots(pads); lastSig=sig; }
+    const p=pads[active];
+    if(p){
+      $('status').textContent='Conectado'; $('status').className='on';
+      $('info').textContent=p.id+' — '+p.buttons.length+' botões, '+p.axes.length+' eixos, mapeamento: '+(p.mapping||'desconhecido');
+      p.buttons.forEach((b,i)=>{ const el=$('b'+i); if(el) el.classList.toggle('on', b.pressed); });
+      const ax=p.axes;
+      const lx=ax[0]||0, ly=ax[1]||0, rx=ax[2]||0, ry=ax[3]||0;
+      drawStick($('cL'),lx,ly); drawStick($('cR'),rx,ry);
+      $('tL').textContent=fmt(lx)+', '+fmt(ly); $('tR').textContent=fmt(rx)+', '+fmt(ry);
+      stickInfo(lx,ly,$('eL')); stickInfo(rx,ry,$('eR'));
+      const lt=p.buttons[6]?p.buttons[6].value:0, rt=p.buttons[7]?p.buttons[7].value:0;
+      $('vLT').textContent=lt.toFixed(2); $('bLT').style.width=(lt*100)+'%';
+      $('vRT').textContent=rt.toFixed(2); $('bRT').style.width=(rt*100)+'%';
+      $('axes').innerHTML='<b>Eixos</b>'+ax.map((v,i)=>'<div><span>'+i+'</span><span>'+fmt(v)+'</span></div>').join('');
+      $('rbtns').innerHTML='<b>Botões</b>'+p.buttons.map((b,i)=>'<div><span>'+i+'</span><span>'+b.value.toFixed(2)+'</span></div>').join('');
+      trackPolling(p);
+    } else {
+      $('status').textContent='Conecte o controle e pressione qualquer botão'; $('status').className='';
+      $('info').textContent='Nenhum controle detectado.';
+      drawStick($('cL'),0,0); drawStick($('cR'),0,0);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  // vibração
+  const PATTERNS={
+    heavy:[{duration:600,strongMagnitude:1,weakMagnitude:0}],
+    light:[{duration:600,strongMagnitude:0,weakMagnitude:1}],
+    burst:[0,1,2].map(()=>({duration:150,strongMagnitude:1,weakMagnitude:1})),
+    pulse:[{duration:300,strongMagnitude:.5,weakMagnitude:.5}]
+  };
+  async function vibrate(kind){
+    const p=getPads()[active];
+    if(!p){ $('vibnote').textContent='Nenhum controle conectado.'; return; }
+    const a=p.vibrationActuator;
+    if(!a || !a.playEffect){ $('vibnote').textContent='Este navegador/controle não expõe vibração. Use Chrome ou Edge com cabo USB.'; return; }
+    const seq=PATTERNS[kind];
+    for(let i=0;i<seq.length;i++){
+      await a.playEffect(a.type||'dual-rumble',{startDelay:0,...seq[i]});
+      if(kind==='burst') await new Promise(r=>setTimeout(r,200));
+    }
+    if(kind==='pulse'){ for(let i=0;i<2;i++){ await new Promise(r=>setTimeout(r,200)); await a.playEffect(a.type||'dual-rumble',{startDelay:0,...seq[0]}); } }
+  }
+  document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>vibrate(b.dataset.v));
+
+  window.addEventListener('gamepadconnected',e=>{ active=e.gamepad.index<4?e.gamepad.index:0; lastSig=''; });
+  window.addEventListener('gamepaddisconnected',()=>{ lastSig=''; });
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
