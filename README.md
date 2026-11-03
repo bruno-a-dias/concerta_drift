@@ -52,3 +52,4 @@ Funciona em qualquer hospedagem estática. No GitHub Pages: *Settings → Pages 
 - Gatilhos adaptativos e háptica avançada do PS5 não são controláveis pela API padrão.
 - Vibração depende do navegador, do driver e do tipo de conexão.
 - Taxa de polling e teste de reação servem principalmente para comparar conexões no mesmo equipamento.
+-Não esquecer de conferir botões.
